@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>TRA Ploegen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  body, html {height: 100%}
+</style>
+</head>
+
+<body>
+<div class="w3-display-container" style="height:100%;">
+
+  <header class="w3-blue w3-display-topleft" style="width:100%;">
+    <h1 class="w3-margin-left" style="user-select: none;">TRA Ploegen</h1>
+  </header>
+
+  <div class="w3-container w3-display-middle" style="margin-top:18px;">
+    <div class="mySlides w3-card w3-blue" style="min-width:200px;">
+      <p class="w3-white w3-padding" style="margin:0px;">Ploeg 1</p>
+      <h2 class="w3-center" style="margin:0px;padding-top:12px;"><span id="shiftLabel1">Shift1</span></h2>
+      <h3 class="w3-center w3-opacity" style="margin:0px;padding-bottom:12px;"><span id="weekdayLabel1">Weekday1</span></h3>
+    </div>
+    <div class="mySlides w3-card w3-blue" style="min-width:200px;">
+      <p class="w3-white w3-padding" style="margin:0px;">Ploeg 2</p>
+      <h2 class="w3-center" style="margin:0px;padding-top:12px;"><span id="shiftLabel2">Shift2</span></h2>
+      <h3 class="w3-center w3-opacity" style="margin:0px;padding-bottom:12px;"><span id="weekdayLabel2">Weekday2</span></h3>
+    </div>
+    <div class="mySlides w3-card w3-blue" style="min-width:200px;">
+      <p class="w3-white w3-padding" style="margin:0px;">Ploeg 3</p>
+      <h2 class="w3-center" style="margin:0px;padding-top:12px;"><span id="shiftLabel3">Shift3</span></h2>
+      <h3 class="w3-center w3-opacity" style="margin:0px;padding-bottom:12px;"><span id="weekdayLabel3">Weekday3</span></h3>
+    </div>
+    <div class="mySlides w3-card w3-blue" style="min-width:200px;">
+      <p class="w3-white w3-padding" style="margin:0px;">Ploeg 4</p>
+      <h2 class="w3-center" style="margin:0px;padding-top:12px;"><span id="shiftLabel4">Shift4</span></h2>
+      <h3 class="w3-center w3-opacity" style="margin:0px;padding-bottom:12px;"><span id="weekdayLabel4">Weekday4</span></h3>
+    </div>
+    <input type="date" id="datepickerInput" class="w3-card w3-input w3-center" style="margin:auto;align:center;min-width:200px;margin-top:12px;"/>
+  </div>
+
+  <button class="w3-display-left w3-button w3-blue w3-card" onclick="minDivs(1)">&#10094;</button>
+  <button class="w3-display-right w3-button w3-blue w3-card" onclick="plusDivs(1)">&#10095;</button>
+
+  <div class="w3-blue w3-display-bottomleft w3-center" style="width:100%;user-select: none;">
+    <p class="w3-small w3-opacity" style="margin:6px;">Ontwikkeld door Tim Hermans</p>
+  </div>
+
+</div>
+
+<script>
+////////////////////////////////////
+// SCRIPT FOR THE SLIDES/CAROUSEL //
+////////////////////////////////////
+// CREATE INDEX FOR COUNTING THE SLIDES
+var slideIndex = 1;
+// SHOW FIRST SLIDE ON STARTUP
+showDivs(slideIndex);
+// FUNCTION FOR NEXT BUTTON
+function plusDivs(n) {
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].classList.remove('w3-animate-left');
+    x[i].classList.add('w3-animate-right');
+  }
+  showDivs(slideIndex += n);
+}
+// FUNCTION FOR PREVIOUS BUTTON
+function minDivs(n) {
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].classList.remove('w3-animate-right');
+    x[i].classList.add('w3-animate-left');
+  }
+  showDivs(slideIndex -= n);
+}
+// MAIN FUNCTION TO SHOW CURRENT INDEX SLIDE AND HIDE THE REST
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
+
+////////////////////////////////////////////////
+// SCRIPT FOR CALCULATING SHIFTS AND WEEKDAYS //
+////////////////////////////////////////////////
+//CREATE ARRAY FOR DISPLAY IN WEEKDAYLABEL
+var weekday = ["Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"];
+//CREATE ARRAY FOR DISPLAY IN SHIFTLABEL
+var shifts = ["Vroege 1/7", "Vroege 2/7", "Vroege 3/7", "Vroege 4/7", "Vroege 5/7", "Vroege 6/7", "Vroege 7/7", "Rustdag 1/2", "Rustdag 2/2", "Nacht 1/7", "Nacht 2/7", "Nacht 3/7", "Nacht 4/7", "Nacht 5/7", "Nacht 6/7", "Nacht 7/7", "Rustdag 1/3",  "Rustdag 2/3",  "Rustdag 3/3", "Late 1/7", "Late 2/7", "Late 3/7", "Late 4/7", "Late 5/7", "Late 6/7", "Late 7/7", "Rustdag 1/2", "Rustdag 2/2"];
+//FUNCTION THAT UPDATES SHIFT AND WEEKDAY LABELS
+function labelsUpdate() {
+    //GET DATE FROM DATEPICKER AND CONVERT TO JS DATE FORMATUPDATE WEEKDAYLABEL
+    var dptemp = new Date(document.getElementById("datepickerInput").value);
+    var dateEntered = new Date(dptemp.getFullYear(), dptemp.getMonth(), dptemp.getDate());
+    //UPDATE WEEKDAYLABELS
+    document.getElementById("weekdayLabel1").innerHTML = weekday[dateEntered.getDay()];
+    document.getElementById("weekdayLabel2").innerHTML = weekday[dateEntered.getDay()];
+    document.getElementById("weekdayLabel3").innerHTML = weekday[dateEntered.getDay()];
+    document.getElementById("weekdayLabel4").innerHTML = weekday[dateEntered.getDay()];
+    //CREATE THE REFERENCE DATES FOR THE TEAMS IN THE SHIFSYSTEM
+    var refdateTeam1 = new Date(2015, 4, 27);
+    var refdateTeam2 = new Date(2015, 4, 20);
+    var refdateTeam3 = new Date(2015, 4, 13);
+    var refdateTeam4 = new Date(2015, 4, 6);
+    //CREATE VARIABLE FOR NR OF MILLISECONDS IN A DAY
+    var msDay = 24*60*60*1000;
+    //TEAM 1
+    //CALCULATE THE NUMBER OF DAYS BETWEEN DATEPICKER DATE AND REFDATE
+    var differenceTeam1 = Math.round(Math.abs((dateEntered.getTime() - refdateTeam1.getTime()) / msDay));
+    var offsetTeam1 = differenceTeam1 % shifts.length;
+    //UPDATE THE THE SHIFTLABEL
+    document.getElementById("shiftLabel1").innerHTML = shifts[offsetTeam1];
+    //TEAM 2
+    //CALCULATE THE NUMBER OF DAYS BETWEEN DATEPICKER DATE AND REFDATE
+    var differenceTeam2 = Math.round(Math.abs((dateEntered.getTime() - refdateTeam2.getTime()) / msDay));
+    var offsetTeam2 = differenceTeam2 % shifts.length;
+    //UPDATE THE THE SHIFTLABEL
+    document.getElementById("shiftLabel2").innerHTML = shifts[offsetTeam2];
+    //TEAM 3
+    //CALCULATE THE NUMBER OF DAYS BETWEEN DATEPICKER DATE AND REFDATE
+    var differenceTeam3 = Math.round(Math.abs((dateEntered.getTime() - refdateTeam3.getTime()) / msDay));
+    var offsetTeam3 = differenceTeam3 % shifts.length;
+    //UPDATE THE THE SHIFTLABEL
+    document.getElementById("shiftLabel3").innerHTML = shifts[offsetTeam3];
+    //TEAM 4
+    //CALCULATE THE NUMBER OF DAYS BETWEEN DATEPICKER DATE AND REFDATE
+    var differenceTeam4 = Math.round(Math.abs((dateEntered.getTime() - refdateTeam4.getTime()) / msDay));
+    var offsetTeam4 = differenceTeam4 % shifts.length;
+    //UPDATE THE THE SHIFTLABEL
+    document.getElementById("shiftLabel4").innerHTML = shifts[offsetTeam4];
+};
+//CHANGE LABEL WHEN DATEPICKER'S VALUE IS CHANGED
+document.getElementById("datepickerInput").addEventListener("change", labelsUpdate);
+//CREATE CORRECT INPUTFORMAT "YYYY-MM-DD" FROM TODAY'S DATE
+var dateToday = new Date().toISOString().substr(0, 10);
+//SET DATEPICKER TO TODAY'S DATE
+document.getElementById("datepickerInput").value = dateToday;
+//RUN MAIN FUNCTION TO UPDATE LABELS ON STARTUP
+labelsUpdate();
+</script>
+
+</body>
+
+</html>
